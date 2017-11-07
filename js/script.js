@@ -42,7 +42,7 @@ var gameModule = (function(){
     }
     else if (name === 'New game'){
       $('#finish').hide();
-      $('h3').remove();
+      $('h2').remove();
       $('#finish').removeClass('screen-win-one');
       resetBoard();
       $('#board').show();
@@ -85,6 +85,7 @@ var gameModule = (function(){
           playerInfo.one.moves++;
           if (playerInfo.one.moves >=3){
             horizontalWin(playerInfo.one);
+            verticalWins(playerInfo.one);
           }
 
           deactivate1();
@@ -94,6 +95,10 @@ var gameModule = (function(){
           currActive.two = false;
           currActive.one = true;
           playerInfo.two.moves++;
+          if (playerInfo.two.moves >=3){
+            horizontalWin(playerInfo.two);
+            verticalWins(playerInfo.two);
+          }
           deactivate2();
         }});
 
@@ -135,22 +140,62 @@ var gameModule = (function(){
       }
     }
     Winner(active);
+    for (let i =6; i < 9; i++){
+      if (g[i].classList.contains(active.turn)){
+        active.hasWon = true;
+    }
+    else {
+        active.hasWon = false;
+    }
   }
+  Winner(active);
+}
+function verticalWins(active){
+  let g = document.querySelectorAll('.box');
+  for(let i =0; i<=6; i+=3){
+    console.log(i);
+    if (g[i].classList.contains(active.turn)) {
+      active.hasWon = true;
+    }
+    else {
+      active.hasWon = false;
+    }
+  }
+  Winner(active);
+  for (let i = 1; i <=7; i+=3) {
+    if (g[i].classList.contains(active.turn)) {
+      active.hasWon = true;
+  }
+  else {
+    active.hasWon = true;
+  }
+}
+Winner(active);
+for (let i = 2; i <=8; i+=3) {
+  if (g[i].classList.contains(active.turn)) {
+    active.hasWon = true;
+}
+else {
+  active.hasWon = true;
+}
+}
+  Winner(active);
+}
 
-    function Winner(active){
+  function Winner(active){
       if (active.turn === 'box-filled-1' && active.hasWon ===true)
       {
         $('#board').hide();
         $('#finish').show();
         $('#finish').addClass('screen-win-one');
-        $('#finish').append('<h3>Winner</h3');
+        $('#finish').append('<h2>Winner</h2>');
         playerInfo.one.hasWon = false;
       }
       else if(active.turn === 'box-filled-2' && active.hasWon ===true){
         $('#board').hide();
         $('#finish').show();
         $('#finish').addClass('screen-win-two');
-        $('#finish').append('<h3>Winner</h3');
+        $('#finish').append('<h2>Winner</h2>');
         playerInfo.two.hasWon = false;
     }}
     // check for winning
