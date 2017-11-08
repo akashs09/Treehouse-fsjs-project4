@@ -75,30 +75,41 @@ var gameModule = (function(){
         if (currActive.two === true) {
           $(deselected).removeClass(playerInfo.two.hover);
       }});
+
+      function isOccupied(clicked){
+
+        if ($(clicked).hasClass('box-filled-1') || $(clicked).hasClass('box-filled-2')){
+            return false;
+        }
+        else {
+            return true;
+        }
+      }
 //click event on the class box that when enabled does adds the svg img
       $('.box').click((e)=> {
           let clicked = e.target;
-        if(currActive.one === true){
+          let occupy = isOccupied(clicked);
+        if((currActive.one === true) && occupy){
           $(clicked).addClass(playerInfo.one.turn);
           currActive.one = false;
           currActive.two = true;
           playerInfo.one.moves++;
-          //checks win functions
-          if (playerInfo.one.moves >=3 && playerInfo.one.moves < 5){
-            horizontalWin(playerInfo.one);
-            verticalWins(playerInfo.one);
-            diagonalWin(playerInfo.one);
-          } //the fifth move for player 1 will guarantee a tie so bring the screen-win-tie
-          else if (playerInfo.one.moves === 5){
-            $('#board').hide();
-            $('#finish').show();
-            $('#finish').addClass('screen-win-tie');
-            $('h1').after('<h2>It\'s is a draw</h2>');
-          }
+            //checks win functions
+            if (playerInfo.one.moves >=3 && playerInfo.one.moves < 5){
+              horizontalWin(playerInfo.one);
+              verticalWins(playerInfo.one);
+              diagonalWin(playerInfo.one);
+            } //the fifth move for player 1 will guarantee a tie so bring the screen-win-tie
+            else if (playerInfo.one.moves === 5){
+              $('#board').hide();
+              $('#finish').show();
+              $('#finish').addClass('screen-win-tie');
+              $('h1').after('<h2>It\'s is a draw</h2>');
+            }
 
-          deactivate1();
-        }
-        else if (currActive.two === true){
+            deactivate1();
+          }
+        else if ((currActive.two === true) && occupy){
           $(clicked).addClass(playerInfo.two.turn);
           currActive.two = false;
           currActive.one = true;
@@ -109,7 +120,10 @@ var gameModule = (function(){
             diagonalWin(playerInfo.two);
           }
           deactivate2();
-        }});
+        }
+        else {
+        alert("Occupied");}
+      });
 
 // these deactivate functions just switch the active states from 1 to 2, from 2 to 1 respect.
       function deactivate1(){
