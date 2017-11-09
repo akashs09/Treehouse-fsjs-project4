@@ -59,7 +59,6 @@ var gameModule = (function(){
       $('.box').mouseover((e)=>{
         console.log("mouseover");
         let selected = e.target;
-          $(selected).addClass(playerInfo.one.hover);
           if (currActive.one === true) {
             $(selected).addClass(playerInfo.one.hover);
           }
@@ -134,68 +133,38 @@ var gameModule = (function(){
         $(playerInfo.one.id).addClass('active');
         $(playerInfo.two.id).removeClass('active');
       }
-//checks to see of any players has same across the board
+//checks to see of any players has same across the board  ***
     function horizontalWin(active){
-          let g = document.querySelectorAll('.box');
-          if(g[0].classList.contains(active.turn)
-            && g[1].classList.contains(active.turn)
-            && g[2].classList.contains(active.turn)) {
-            Winner(active);
-          }
-
-          if(g[3].classList.contains(active.turn)
-            && g[4].classList.contains(active.turn)
-            && g[5].classList.contains(active.turn)) {
-            Winner(active);
-          }
-
-          if(g[6].classList.contains(active.turn)
-            && g[7].classList.contains(active.turn)
-            && g[8].classList.contains(active.turn)) {
-            Winner(active);
-          }
+          winCheck(active,0,1,2);
+          winCheck(active,3,4,5);
+          winCheck(active,6,7,8);
         }
-//checks to see if the player has down the board
+
+//calculates the logic to determine if a win is warranted
+    function winCheck(active,i,j,k){
+      let g = document.querySelectorAll('.box');
+      if(g[i].classList.contains(active.turn)
+        && g[j].classList.contains(active.turn)
+        && g[k].classList.contains(active.turn)){
+          Winner(active);
+        }
+    }
+//checks to see if the player has down the board ***
   function verticalWins(active){
-    let g = document.querySelectorAll('.box');
-    if(g[0].classList.contains(active.turn)
-      && g[3].classList.contains(active.turn)
-      && g[6].classList.contains(active.turn)) {
-      Winner(active);
-    }
-
-    if(g[1].classList.contains(active.turn)
-      && g[4].classList.contains(active.turn)
-      && g[7].classList.contains(active.turn)) {
-      Winner(active);
-    }
-
-    if(g[2].classList.contains(active.turn)
-      && g[5].classList.contains(active.turn)
-      && g[8].classList.contains(active.turn)) {
-      Winner(active);
-    }
+    winCheck(active,0,3,6);
+    winCheck(active,1,4,7);
+    winCheck(active,2,5,8);
   }
-//checks to see if player has same diagonally across
+//checks to see if player has same diagonally across ***
   function diagonalWin(active){
-    let g = document.querySelectorAll('.box');
-    if(g[0].classList.contains(active.turn)
-      && g[4].classList.contains(active.turn)
-      && g[8].classList.contains(active.turn)) {
-      Winner(active);
-    }
-
-    if(g[2].classList.contains(active.turn)
-      && g[4].classList.contains(active.turn)
-      && g[6].classList.contains(active.turn)) {
-      Winner(active);
-    }
+    winCheck(active,0,4,8);
+    winCheck(active,2,4,6);
   }
 //once winner has been determined change screen state the respective winner
 function Winner(active){
     $('#board').hide();
     $('#finish').show();
-    $('#finish').append('<h2>Winner</h2>');
+    $('h1').append('<h2>Winner</h2>');
     if (active.turn === 'box-filled-1') {
       $('#finish').addClass('screen-win-one');
       playerInfo.one.hasWon = false;

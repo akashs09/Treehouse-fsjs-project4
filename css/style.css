@@ -16,6 +16,10 @@ h1 {
   width: 1.875em;}
 h2 {
   z-index: 3000;
+  color: #FFF;
+  font-size: 200%;
+  /*display: block;*/
+  text-align: center;
 }
 .button {
   background: #fff;
@@ -71,14 +75,17 @@ h2 {
   .screen-win-one {
     background: #FFA000; }
     .screen-win-one .button {
-      color: #3688C3; }
+      color: #3688C3;
+      margin-top: 180px;
+     }
     .screen-win-one p:before {
       content: "o";
       top: 1.75rem; }
   .screen-win-two {
     background: #3688C3; }
     .screen-win-two .button {
-      color: #FFA000; }
+      color: #FFA000;
+      margin-top: 180px;}
     .screen-win-two p:before {
       content: "×";
       top: 4.5rem; }
